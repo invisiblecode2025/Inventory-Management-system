@@ -1,12 +1,8 @@
-# Inventory Management System
-
-Sure! Here is an example of a README file for your inventory management system:
-
----
 
 # Inventory Management System
 
-This Inventory Management System is designed with the Clean Architecture and MVVM (Model-View-ViewModel) pattern to ensure a robust, scalable, and maintainable codebase. The following sections provide an overview of the architectural decisions and chosen technologies.
+This Inventory Management System is designed with the Clean Architecture and MVVM (Model-View-ViewModel) pattern to ensure a robust, scalable, and maintainable codebase. 
+The following sections provide an overview of the architectural decisions and chosen technologies.
 
 ## Architectural Decisions
 
@@ -26,9 +22,10 @@ The MVVM pattern is used to facilitate the separation of the UI from the busines
 ## Chosen Technologies
 
 ### Backend
-- **.NET 6:** The primary framework for building the backend services, chosen for its performance, cross-platform capabilities, and rich ecosystem.
+- **.NET 8:** The primary framework for building the backend services, chosen for its performance, cross-platform capabilities, and rich ecosystem.
 - **Entity Framework Core:** An ORM (Object-Relational Mapper) to simplify database interactions.
 - **SQL Server:** The database management system used for storing and retrieving data.
+
 
 ### Frontend
 - **WPF (Windows Presentation Foundation):** The UI framework for building rich desktop applications. WPF is chosen for its powerful data binding capabilities and flexibility in creating complex user interfaces.
@@ -52,9 +49,13 @@ The project follows a modular folder structure to organize the codebase effectiv
 InventoryManagementSystem/
 ├── src/
 │   ├── InventoryManagementSystem.Application/
-│   ├── InventoryManagementSystem.Domain/
-│   ├── InventoryManagementSystem.Infrastructure/
-│   ├── InventoryManagementSystem.Presentation/
+│   ├── Inventory.DomainModels/
+│   ├── Inventory.Infrastructure
+│   ├── Inventory ManagementUI
+│   ├── Inventory.ManagementDto
+│   ├── Inventory.Services
+│   ├── Inventory.Shared.Core.Enum
+│   ├── InventoryManagementSqlDb
 ├── tests/
 │   ├── InventoryManagementSystem.Application.Tests/
 │   ├── InventoryManagementSystem.Domain.Tests/
@@ -68,34 +69,11 @@ InventoryManagementSystem/
 - **Presentation:** Contains WPF views, view models, and UI-specific logic.
 - **Tests:** Contains unit tests for each layer of the application.
 
-## Getting Started
-
-To get started with the Inventory Management System, follow these steps:
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/InventoryManagementSystem.git
-   cd InventoryManagementSystem
-   ```
-
-2. **Build the solution:**
-   Open the solution in Visual Studio and build it.
-
-3. **Run the application:**
-   Set `InventoryManagementSystem.Presentation` as the startup project and run the application.
-
-4. **Run the tests:**
-   Execute the unit tests using Visual Studio Test Explorer or the .NET CLI:
-   ```bash
-   dotnet test
-   ```
 
 ## Conclusion
 
 This Inventory Management System leverages Clean Architecture and the MVVM pattern to ensure a clean, maintainable, and scalable codebase. The chosen technologies and tools further enhance the system's robustness and ease of development.
 
 Feel free to explore the codebase and contribute to the project. If you have any questions or need assistance, please open an issue or contact the project maintainers.
-
----
 
 Feel free to customize this README file to better suit your project and specific details. If you have any other questions or need further assistance, feel free to ask!
