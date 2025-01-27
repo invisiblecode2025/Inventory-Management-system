@@ -1,0 +1,93 @@
+﻿<Window x:Class="Inventory_Management.Views.Inventory.InventoryEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inventory_Management.Views.Inventory"
+        mc:Ignorable="d"
+        Title=" Edit" Height="300" Width="800">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel  Grid.Row="0" Margin="10">
+            <Grid Width="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                
+               
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="5"  Text="Item"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5"  Text="Supplier"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="10"  Text="StockQuantity"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="10"  Text="ItemPrice"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="10"  Text="OrderDate"/>
+
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Width="Auto" Text="{Binding Inventory.StockQuantity, Mode=TwoWay}"/>
+         
+
+         
+
+                <ComboBox ItemsSource="{Binding Items}" x:Name="ItemsList" Grid.Row="0" Width="Auto" Grid.Column="1" Margin="5"
+                    SelectedValuePath="Id" 
+                    SelectedItem="{Binding Inventory.Item, Mode=TwoWay}" >        
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Description}" FontStyle="Italic" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ComboBox ItemsSource="{Binding Supplier}" x:Name="supplierlist" Grid.Row="1" Width="Auto" Grid.Column="1" Margin="5"
+            SelectedValuePath="Id" 
+            SelectedItem="{Binding Inventory.Supplier, Mode=TwoWay}" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Description}" FontStyle="Italic" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBox Grid.Row="2"  x:Name="stockQty" PreviewTextInput="PreviewTextBoxInput" DataObject.Pasting="TextBoxParsing" Grid.Column="1" Margin="6" Width="Auto" 
+          TextAlignment="Center" TextChanged="stockQty_TextChanged" Text="{Binding Inventory.StockQuantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                <TextBox Grid.Row="3" x:Name="itemprice"   TextChanged="stockQty_TextChanged" PreviewTextInput="PreviewTextBoxInput" DataObject.Pasting="TextBoxParsing"  Grid.Column="1" Margin="5" Width="Auto" 
+          TextAlignment="Center"  Text="{Binding Inventory.ItemPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DatePicker Grid.Row="4" SelectedDateChanged="orderDate_SelectedDateChanged" x:Name="orderDate" Grid.Column="1" Margin="5" SelectedDate="{Binding Inventory.OrderDate, Mode=TwoWay}" ></DatePicker>
+
+                <DockPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="auto">
+                    <!--<Button Margin="5" Width="auto" Padding="19,0,10,0" Content="Add" Command="{Binding AddItemCommand}"/>-->
+                    <Button Margin="10" x:Name="buttSave"  Width="Auto" Padding="10,0,10,0" Content="Save"  Command="{Binding UpdateInventoryItemCommand}"/>
+                    <!--<Button Margin="5" Width="auto" Padding="10,0,10,0" Content="Delete" Command="{Binding DeleteItemCommand}"/>-->
+                </DockPanel>
+
+            </Grid>
+        </StackPanel>
+
+
+    </Grid>
+</Window>

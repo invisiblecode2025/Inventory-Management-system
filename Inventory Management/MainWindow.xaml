@@ -1,0 +1,102 @@
+﻿<Window x:Class="Inventory_Management.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inventory_Management" 
+        xmlns:viewmodels="clr-namespace:Inventory_Management.ViewModels"
+         xmlns:view="clr-namespace:Inventory_Management.Views" 
+        xmlns:local1="clr-namespace:Inventory_Management.Views.Inventory"
+        mc:Ignorable="d"
+        Title="Inventory Management System" Height="450" Width="800"
+        >
+
+
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Resources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+</Window.Resources>
+    
+    
+        <!--<TabControl>
+            <TabItem Header="Items"  x:Name="ItemTab" >
+                <view:ItemView />
+            </TabItem>
+
+        <TabItem Header="Category"  x:Name="CategoryTab" >
+            <view:CategoryView />
+        </TabItem>
+
+        <TabItem Header="Inventory"  x:Name="InventoryTab" >
+            <view:InventoryView  />
+        </TabItem>
+
+        <TabItem Header="Supplier"  x:Name="SupplierTab" >
+            <view:SupplierView  />
+        </TabItem>
+
+        
+    </TabControl>-->
+
+    <!--<Window.Background>
+        <ImageBrush ImageSource="/background.jpg" Stretch="UniformToFill"/>
+    </Window.Background>-->
+   
+
+    <Grid>
+
+        <StackPanel >
+            <Border  Background="Beige" Height="auto"  BorderThickness="1" Margin="10,8,0,0"  CornerRadius="2"  BorderBrush="LightBlue">
+            <Grid>
+            <Grid.RowDefinitions >
+
+                <RowDefinition  Height="Auto"/>
+               
+            </Grid.RowDefinitions>
+
+                <TextBlock x:Name="MainTextBox"   Text="Application Title" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="Black" FontSize="20"/>
+
+            </Grid>
+        </Border>
+        </StackPanel>
+
+        <!--<view:HeaderBar/>-->
+
+        <Grid Margin="0,40,0,0">
+
+       
+        <!--<Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="/background.jpg"/>
+        </Grid.Background>-->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+      
+
+        <StackPanel Background="#333333">
+            <Button Content="Home" Click="NavigateHome" Style="{StaticResource SidebarButtonStyle}" Margin="10" />
+            <Button Content="Item" Click="NavigateItem" Style="{StaticResource SidebarButtonStyle}" Margin="10" />
+            <Button Content="Catagory" Click="NavigateCatagory" Style="{StaticResource SidebarButtonStyle}" Margin="10" />
+            <Button Content="Supplier" Click="NavigateSupplier" Style="{StaticResource SidebarButtonStyle}" Margin="10" />
+            <Button Content="Inventory" Click="NavigateInventory" Style="{StaticResource SidebarButtonStyle}" Margin="10" />
+        </StackPanel>
+
+    
+
+        <ContentControl x:Name="ContentArea"  Grid.Column="1" >
+
+            </ContentControl>
+
+
+    </Grid>
+    </Grid>
+
+</Window>

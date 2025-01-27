@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Inventory_Management.Views.SupplierView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Inventory_Management.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderThickness="2" Margin="4" CornerRadius="2" BorderBrush="LightBlue">
+            <Grid >
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="10"  Text="{Binding ElementName=ClientsGrid, Path=Columns[0].Header, StringFormat={}{0}:}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="10" Text="{Binding ElementName=ClientsGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="10" Text="{Binding ElementName=ClientsGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="10" Text="{Binding ElementName=ClientsGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding Name, Mode=TwoWay}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Contact, Mode=TwoWay}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding Email, Mode=TwoWay}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding Description, Mode=TwoWay}"/>
+                <!--<TextBox Grid.Row="2" Grid.Column="1" Margin="3"  VerticalScrollBarVisibility="Visible" AcceptsReturn="True"  TextWrapping="Wrap"  Text="{Binding ClientInfo.Account, Mode=TwoWay}"/>-->
+
+
+
+                <DockPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="auto">
+                    <Button Margin="5" Width="auto" Padding="19,0,10,0" Content="Add" Command="{Binding AddSupplierCommand}"/>
+                    <Button Margin="5" Width="auto" Padding="10,0,10,0" Content="Update" Command="{Binding UpdateSupplierCommand}"/>
+                    <Button Margin="5" Width="auto" Padding="10,0,10,0" Content="New" Command="{Binding NewCommand}"/>
+                </DockPanel>
+
+
+
+            </Grid>
+
+        </Border>
+
+
+        <DataGrid Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="False" x:Name="ClientsGrid" ItemsSource="{Binding Suppliers,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay }" SelectedItem="{Binding SelectedSupplier, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="1*"  IsReadOnly="True" Header="Supplier" Binding="{Binding Name}"/>
+                <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Contact Info" Binding="{Binding ContactInfo}"/>
+                <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
+                <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Describation" Binding="{Binding Description}"/>
+
+                <DataGridTemplateColumn Header="Actions" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button  Content="Delete" Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
