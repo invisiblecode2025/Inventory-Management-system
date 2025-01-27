@@ -74,6 +74,4 @@ InventoryManagementSystem/
 
 This Inventory Management System leverages Clean Architecture and the MVVM pattern to ensure a clean, maintainable, and scalable codebase. The chosen technologies and tools further enhance the system's robustness and ease of development.
 
-Feel free to explore the codebase and contribute to the project. If you have any questions or need assistance, please open an issue or contact the project maintainers.
 
-Feel free to customize this README file to better suit your project and specific details. If you have any other questions or need further assistance, feel free to ask!
