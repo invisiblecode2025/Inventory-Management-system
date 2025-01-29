@@ -3,7 +3,11 @@
 
 This Inventory Management System is designed with the Clean Architecture and MVVM (Model-View-ViewModel) pattern to ensure a robust, scalable, and maintainable codebase. 
 The following sections provide an overview of the architectural decisions and chosen technologies.
-
+# Future
+- items
+- Suppliers
+- Category
+- inventory
 ## Architectural Decisions
 
 ### Clean Architecture
