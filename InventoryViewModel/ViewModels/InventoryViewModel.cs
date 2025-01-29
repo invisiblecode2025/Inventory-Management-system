@@ -11,14 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using Inventory.DomainModels.Models;
-using Inventory_Management.Views.Inventory;
-using System.Windows.Controls;
-using System.DirectoryServices.ActiveDirectory;
 using System.Linq.Expressions;
 using Core.Common.ExpCombiner;
 using Serilog;
 
-namespace Inventory_Management.ViewModels
+namespace InventoryViewModel
 {
     public class InventoryViewModel : INotifyPropertyChanged
     {
@@ -35,15 +32,12 @@ namespace Inventory_Management.ViewModels
         public RelayCommand LoadSuppliersCommand { get; set; }
         public ObservableCollection<CategoryDto> Category { get; set; }
         public RelayCommand UpdateInventoryItemCommand { get; set; }
+
         public RelayCommand SelectionChangedCommand { get; set; }
         public RelayCommand ShowDialogCommand { get; }
         public RelayCommand LoadCategoryCommand { get; set; }
 
         ObservableCollection<ItemDto?> _items;
-
-
-
-        bool closetest;
 
         #endregion
         public ObservableCollection<ItemDto?> Items
@@ -54,7 +48,7 @@ namespace Inventory_Management.ViewModels
                 _items = value;
                 OnPropertyChanged(nameof(Items));
 
-                if (LoadItemsCommand != null && closetest)
+                if (LoadItemsCommand != null)
                     LoadItemsCommand.NotifyCanExecuteChanged();
             }
         }
@@ -68,7 +62,7 @@ namespace Inventory_Management.ViewModels
                 _supplier = value;
                 OnPropertyChanged(nameof(Supplier));
 
-                if (LoadSuppliersCommand != null && closetest)
+                if (LoadSuppliersCommand != null)
                     LoadSuppliersCommand.NotifyCanExecuteChanged();
             }
         }
@@ -82,7 +76,7 @@ namespace Inventory_Management.ViewModels
                 _inventoryList = value;
                 OnPropertyChanged(nameof(InventoryList));
 
-                if (LoadInventoryItemCommand != null && closetest)
+                if (LoadInventoryItemCommand != null)
                     LoadInventoryItemCommand.NotifyCanExecuteChanged();
             }
         }
@@ -158,7 +152,7 @@ namespace Inventory_Management.ViewModels
                 _inventory = value;
                 OnPropertyChanged(nameof(Inventory));
 
-                if (UpdateInventoryItemCommand != null && closetest)
+                if (UpdateInventoryItemCommand != null)
                     UpdateInventoryItemCommand.NotifyCanExecuteChanged();
             }
         }
@@ -175,6 +169,7 @@ namespace Inventory_Management.ViewModels
             }
         }
 
+        //InputSearch
         private string _inputSearch;
         public string InputSearch
         {
@@ -182,7 +177,7 @@ namespace Inventory_Management.ViewModels
             set
             {
                 _inputSearch = value;
-                OnPropertyChanged(nameof(InputSearch));
+                OnPropertyChanged(nameof(StockQuantity));
             }
         }
 
@@ -323,9 +318,8 @@ namespace Inventory_Management.ViewModels
         public InventoryViewModel(IItemServices itemServices,
             ICategoryServices categoryServices,
             ISupplierServices supplierServices,
-             IInventoryServices inventoryServices, bool _closetest = true)
+             IInventoryServices inventoryServices)
         {
-            closetest = _closetest;
             _itemServices = itemServices;
             _categoryServices = categoryServices;
             _supplierServices = supplierServices;

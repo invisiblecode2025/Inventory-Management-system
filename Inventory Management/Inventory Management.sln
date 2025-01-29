@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Shared.Core.Enum"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.ManagementDto", "..\InvetoryManagmentDto\Inventory.ManagementDto.csproj", "{1DB3C8F8-D595-4D39-A792-6756C1AF838F}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "inventorymanagementSqlDb", "..\inventorymanagement\InventoryManagementSqlDb.sqlproj", "{DC2BA103-B0BF-42BD-9574-62E87020B67F}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "InventoryManagementSqlDb", "..\inventorymanagement\InventoryManagementSqlDb.sqlproj", "{DC2BA103-B0BF-42BD-9574-62E87020B67F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventorymanagementTestUnit", "..\InventorymanagementTestUnit\InventorymanagementTestUnit.csproj", "{032E8EAE-787E-4AA9-A67A-31E5A41E059C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{DC2BA103-B0BF-42BD-9574-62E87020B67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC2BA103-B0BF-42BD-9574-62E87020B67F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC2BA103-B0BF-42BD-9574-62E87020B67F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{032E8EAE-787E-4AA9-A67A-31E5A41E059C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032E8EAE-787E-4AA9-A67A-31E5A41E059C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032E8EAE-787E-4AA9-A67A-31E5A41E059C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032E8EAE-787E-4AA9-A67A-31E5A41E059C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

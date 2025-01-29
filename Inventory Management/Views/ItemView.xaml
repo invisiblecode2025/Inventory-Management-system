@@ -87,12 +87,13 @@
 
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="10"  Text="Search"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Width="Auto" Text="{Binding Search, Mode=TwoWay}"/>
-                    <Button Content="Search"  Margin="10"  Grid.Column="2" Width="Auto" Command="{Binding SearchCommand}" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Width="Auto" Text="{Binding SearchInput, Mode=TwoWay}"/>
+                        <Button Content="Search"  Margin="10"  Grid.Column="2" Width="Auto" Command="{Binding LoadItemsCommand}" />
                     <TextBlock Grid.Row="0" Grid.Column="3" Margin="10"  Text="Category"/>
-                    <ComboBox ItemsSource="{Binding Category}" Grid.Row="1" Width="Auto" Grid.Column="4" Margin="4"
-     SelectedValuePath="Id" 
-     SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" >
+                    
+                      <ComboBox ItemsSource="{Binding Category}" Grid.Row="1" Width="Auto" Grid.Column="4" Margin="4"
+                     SelectedValuePath="Id" 
+                     SelectedItem="{Binding SelectedCategoryFilter, Mode=TwoWay}" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -102,6 +103,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                        
                     </Grid>
                 </StackPanel>
                 <DataGrid Grid.Row="1" Margin="5" IsReadOnly="True"   Grid.Column="0" x:Name="itemsGrid" ItemsSource="{Binding Items,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">

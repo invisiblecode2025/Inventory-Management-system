@@ -11,10 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Linq.Expressions;
-using Core.Common.ExpCombiner;
 
-namespace Inventory_Management.ViewModels
+namespace InventoryViewModel
 {
    
 
@@ -45,39 +43,13 @@ namespace Inventory_Management.ViewModels
               
             }
         }
-
-  
-        private string _searchInput;
-        public string SearchInput
-        {
-            get { return _searchInput; }
-            set
-            {
-                _searchInput = value;
-                if(value != null && String.IsNullOrWhiteSpace(value))
-                    LoadItemsCommand.Execute(LoadItemsCommand);
-                OnPropertyChanged(nameof(SearchInput));
-            }
-        }
-
+ 
         private CategoryDto _selectedCategory;
         public CategoryDto SelectedCategory
         {
             get { return _selectedCategory; }
             set { _selectedCategory = value; 
                 OnPropertyChanged(nameof(SelectedCategory));
-            }
-        }
-
-        private CategoryDto _selectedCategoryFilter;
-        public CategoryDto SelectedCategoryFilter
-        {
-            get { return _selectedCategoryFilter; }
-            set
-            {
-                _selectedCategoryFilter = value;
-                LoadItemsCommand.Execute(LoadItemsCommand);
-                OnPropertyChanged(nameof(SelectedCategoryFilter));
             }
         }
 
@@ -193,32 +165,12 @@ namespace Inventory_Management.ViewModels
         {
             Category.Clear();
            Category = new ObservableCollection<CategoryDto>(_categoryServices.GetAll());
-            Category.Insert(0, new CategoryDto() { Id = 0 });
         }
         private  void GetAllItems(object parameter = null)
         {
             Items.Clear();
-            Items = new ObservableCollection<ItemDto>( _itemServices.GetAll(filter: BuildQuery()));
+            Items = new ObservableCollection<ItemDto>( _itemServices.GetAll());
         }
-
-        private Expression<Func<Item, bool>>? BuildQuery()
-        {
-            Expression<Func<Item, bool>>? filter = null;
-
-            if(SelectedCategoryFilter != null && SelectedCategoryFilter.Id > 0)
-            {
-                filter = ExpressionCombiner.And(filter, a => a.CategoryId == SelectedCategoryFilter.Id);
-            }
-            if(!String.IsNullOrEmpty(SearchInput))
-            {
-                filter = ExpressionCombiner.And(filter, a => a.Name.Contains(SearchInput) ||
-                a.Description.Contains(SearchInput)
-                || a.Notes.Contains(SearchInput));
-            }
-
-            return filter;
-        }
-
         private bool CanAddItem(object parameter)
         {
             return !string.IsNullOrEmpty(ItemName) && SelectedCategory?.Id > 0  && ( SelectedItem?.Id <=0 || SelectedItem == null );
