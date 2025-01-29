@@ -9,8 +9,6 @@ namespace Inventory_Management.Helper
 {
     public class Shared
     {
-
-
         public bool Message_Confirm(string messageBoxText, string messagecaption, 
             MessageBoxButton button, MessageBoxImage icon, MessageBoxResult messageresualt)
         {

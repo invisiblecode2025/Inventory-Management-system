@@ -71,7 +71,7 @@ namespace Inventory_Management
         {
             await host.StartAsync();
             var mainWindow = host.Services.GetRequiredService<MainWindow>();
-
+            mainWindow.WindowState = WindowState.Maximized;
             mainWindow.Show();
             base.OnStartup(e);
 

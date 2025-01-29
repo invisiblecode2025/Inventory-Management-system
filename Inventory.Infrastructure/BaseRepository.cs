@@ -1,5 +1,6 @@
 ﻿
 
+using Inventory.DomainModels.Base;
 using Inventory.Infrastructure.Interface;
 using Inventory.Repository.DataContext;
 using Microsoft.EntityFrameworkCore;
@@ -248,11 +249,17 @@ namespace Repository
 
         public async Task<bool> Update(T entity)
         {
-            var dfgdf = _context.Entry(entity).State;
-            var edd = changeTracker.Entries().ToList();
             ///_context.Entry(entity).State = EntityState.Modified;
             ClearTracking();
+            await Task.Run(() => _context.Set<T>().Update(entity));
+            return true;
+        }
 
+
+        public async Task<bool> Update(T entity, bool IsSoftDelete = false)
+        {
+   
+            ClearTracking();
             await Task.Run(() => _context.Set<T>().Update(entity));
             return true;
         }

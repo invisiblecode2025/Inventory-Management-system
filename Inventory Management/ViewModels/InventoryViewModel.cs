@@ -17,6 +17,8 @@ using System.DirectoryServices.ActiveDirectory;
 using System.Linq.Expressions;
 using Core.Common.ExpCombiner;
 using Serilog;
+using Inventory_Management.Helper;
+using static Inventory.Shared.Core.Enum.Common;
 
 namespace Inventory_Management.ViewModels
 {
@@ -38,9 +40,9 @@ namespace Inventory_Management.ViewModels
         public RelayCommand SelectionChangedCommand { get; set; }
         public RelayCommand ShowDialogCommand { get; }
         public RelayCommand LoadCategoryCommand { get; set; }
+        public RelayCommand SoftDeleteCommand { get; set; }
 
         ObservableCollection<ItemDto?> _items;
-
 
 
         bool closetest;
@@ -182,7 +184,9 @@ namespace Inventory_Management.ViewModels
             set
             {
                 _inputSearch = value;
-                OnPropertyChanged(nameof(InputSearch));
+                if (value != null && String.IsNullOrWhiteSpace(value))
+                    LoadInventoryItemCommand?.Execute(this);
+                    OnPropertyChanged(nameof(InputSearch));
             }
         }
 
@@ -347,6 +351,7 @@ namespace Inventory_Management.ViewModels
             ShowDialogCommand = new RelayCommand(ShowDialog);
             UpdateInventoryItemCommand = new RelayCommand(UpdateInventoryItem, CanUpdateItem);
             LoadCategoryCommand = new RelayCommand(GetAllCategory);
+            SoftDeleteCommand = new RelayCommand(InventoryItemsDelete);
 
             SelectionChangedCommand = new RelayCommand(OnSelectionChanged);
             GetAllItems();
@@ -359,6 +364,8 @@ namespace Inventory_Management.ViewModels
         private Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? BuildQuery()
         {
             Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? filter = null;
+
+            filter = a => a.DeleteStatus == (int)DeleteStatus.NotDeleted;
 
             if (SelectedCategory is not null && SelectedCategory.Id > 0)
             {
@@ -431,6 +438,18 @@ namespace Inventory_Management.ViewModels
             Supplier?.Clear();
             Supplier = new ObservableCollection<SupplierDto?>(_supplierServices.GetAll());
             Supplier.Insert(0, new SupplierDto { Id = 0 });
+        }
+
+        private async void InventoryItemsDelete(object parameter = null)
+        {
+            if (new Shared().Message_Confirm("Are You Sure delete this item ", "Inventory", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes))
+            {
+               var resualt = _inventoryServices.SoftDeleteInventoryItems(SelectedInventoryItem.Id);
+                if (await resualt)
+                LoadInventoryItemCommand.Execute(LoadInventoryItemCommand);
+            }
+              
+
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

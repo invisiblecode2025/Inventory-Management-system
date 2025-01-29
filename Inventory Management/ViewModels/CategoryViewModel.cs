@@ -236,11 +236,9 @@ namespace Inventory_Management.ViewModels
 
                 }
             }
-
-
         }
 
-   
+  
 
         #endregion
 

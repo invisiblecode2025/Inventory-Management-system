@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using static Inventory.Shared.Core.Enum.Common;
 
 namespace Inventory.Services.Services
 {
@@ -32,7 +33,7 @@ namespace Inventory.Services.Services
 
         public IEnumerable<InventoryDto> GetAll(Expression<Func<DomainModels.Models.Inventory, bool>>? filter = null)
         {
-            return _mapper.Map<IEnumerable<InventoryDto>>(_unitOfWork.Inventory.GetAllIEnumerable(includeProperties: "Item.Category",filter: filter));
+            return _mapper.Map<IEnumerable<InventoryDto>>(_unitOfWork.Inventory.GetAllIEnumerable(includeProperties: "Item.Category,Supplier", filter: filter));
         }
 
         public async Task<InventoryDto> GetByIdAsync(int Id)
@@ -69,6 +70,19 @@ namespace Inventory.Services.Services
                 return await _unitOfWork.Commit() > 0;
             }
             return await Task.FromResult(false);
+        }
+
+     
+        public async Task<bool> SoftDeleteInventoryItems(int Id)
+        {
+            var _inventory = _unitOfWork.Inventory.GetWhere(a=> a.Id == Id).FirstOrDefault();
+
+            if(_inventory is not null)
+            _inventory.DeleteStatus = (int)DeleteStatus.Deleted;
+
+            var result = await _unitOfWork.Inventory.Update(_inventory);
+            await _unitOfWork.Commit();
+            return result;
         }
     }
 }

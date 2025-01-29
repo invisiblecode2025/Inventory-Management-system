@@ -17,6 +17,7 @@ namespace Inventory.Services.Interface
         public Task<bool> Update(InventoryDto Inventory);
         public Task<bool> Delete(int ItemId);
 
+        public Task<bool> SoftDeleteInventoryItems(int Id);
         public InventoryDto GetById(int Id);
     }
 }

@@ -182,7 +182,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Button Content="Edit" Grid.Column="0" Command="{Binding DataContext.ShowDialogCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                <Button Content="Delete" Grid.Column="1" Command="{Binding DataContext.ShowDialogCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                <Button Content="Delete" Grid.Column="1" Command="{Binding DataContext.SoftDeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                             </Grid>
                             </DataTemplate >
 

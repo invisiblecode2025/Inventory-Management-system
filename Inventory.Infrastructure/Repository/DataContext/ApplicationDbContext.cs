@@ -1,9 +1,11 @@
 ﻿
 using Inventory.DomainModels.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Inventory.Shared.Core.Enum.Common;
 
 namespace Inventory.Repository.DataContext
 {
@@ -61,5 +63,35 @@ namespace Inventory.Repository.DataContext
                 entity.LastUpdateDate = DateTime.Now;
             }
         }
+
+        private void BeforeUpdate()
+        {
+            var entries = ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is BaseEntity && (
+                e.State == EntityState.Modified));
+
+            foreach (var entry in entries)
+            {
+                var entity = (BaseEntity)entry.Entity;
+                if (entry.State == EntityState.Modified && entity.DeleteStatus == (int)DeleteStatus.Deleted)
+                {
+                    entity.DeleteStatus = (int)DeleteStatus.Deleted;
+                }
+                entity.LastUpdateDate = DateTime.Now;
+            }
+        }
+   
+        public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
+        {
+            BeforeUpdate();
+           return  base.Update(entity);
+    
+        }
+
+
+
     }
+    
+    
 }

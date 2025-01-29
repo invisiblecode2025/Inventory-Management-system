@@ -19,6 +19,7 @@ namespace Inventory.Infrastructure.Interface
         //Task<T> Update(T entity);
 
         Task<bool> Update(T entity);
+        Task<bool> Update(T entity, bool IsSoftDelete = false);
         Task<bool> Update(List<T> entityList);
         Task<IEnumerable<T>> GetAllAsync();
 
