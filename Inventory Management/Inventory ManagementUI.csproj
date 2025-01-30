@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Inventory.Services\Inventory.Services.csproj" />
+    <ProjectReference Include="..\InventoryMapper\InventoryMapper.csproj" />
     <ProjectReference Include="..\InvetoryManagmentDto\Inventory.ManagementDto.csproj" />
   </ItemGroup>
 

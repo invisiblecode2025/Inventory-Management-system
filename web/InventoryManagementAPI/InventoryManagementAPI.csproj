@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ExceptionMiddleware.csproj\**" />
+    <Content Remove="ExceptionMiddleware.csproj\**" />
+    <EmbeddedResource Remove="ExceptionMiddleware.csproj\**" />
+    <None Remove="ExceptionMiddleware.csproj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Inventory.Infrastructure\Inventory.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Inventory.Services\Inventory.Services.csproj" />
+    <ProjectReference Include="..\..\InventoryMapper\InventoryMapper.csproj" />
+    <ProjectReference Include="..\ExceptionMiddleware\ExceptionMiddleware.csproj" />
+    <ProjectReference Include="..\WebToken\WebToken.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -33,6 +33,13 @@ namespace Inventory.Services.Services
             return _mapper.Map<IEnumerable<InventoryDto>>(await _unitOfWork.Inventory.GetAll());
         }
 
+        public async Task<IEnumerable<InventoryDto>> GetAllAsync(InventoryFilterDto inventoryFilterDto)
+        {
+            var filter = BuildQuery(inventoryFilterDto);
+            return _mapper.Map<IEnumerable<InventoryDto>>(await _unitOfWork.Inventory.GetAll(filter: filter));
+        }
+
+
         public IEnumerable<InventoryDto> GetAll(Expression<Func<DomainModels.Models.Inventory, bool>>? filter = null)
         {
             return _mapper.Map<IEnumerable<InventoryDto>>(_unitOfWork.Inventory.GetAllIEnumerable(includeProperties: "Item.Category,Supplier", filter: filter));

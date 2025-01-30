@@ -11,7 +11,7 @@ using Inventory.Infrastructure.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Inventory.Repository.DataContext;
 using AutoMapper;
-using InventoryAPI.Mapper;
+
 
 using Inventory_Management;
 using Inventory_Management.Views;
@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Windows.Input;
+using InventoryAPI.Mapper;
 
 namespace Inventory_Management
 {
