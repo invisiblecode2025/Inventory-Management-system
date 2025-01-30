@@ -16,6 +16,7 @@ Clean Architecture is chosen to maintain a clear separation of concerns and to e
 - **Use Cases:** Contains application-specific business rules. This layer orchestrates the flow of data to and from the entities and manages the business logic.
 - **Interface Adapters:** Adapts the data from the use cases to a format suitable for the framework or user interface layers.
 - **Frameworks and Drivers:** Contains the frameworks and tools such as the user interface, database, and external APIs. This layer is the least stable and most susceptible to change.
+- **Expression tree :** query builder for reusable search and data filtration 
 
 ### MVVM Pattern
 The MVVM pattern is used to facilitate the separation of the UI from the business logic and data binding. It enhances testability and maintainability.
@@ -34,6 +35,7 @@ The MVVM pattern is used to facilitate the separation of the UI from the busines
 ### Frontend
 - **WPF (Windows Presentation Foundation):** The UI framework for building rich desktop applications. WPF is chosen for its powerful data binding capabilities and flexibility in creating complex user interfaces.
 - **MVVM Light Toolkit:** A toolkit that provides essential components and helpers for implementing the MVVM pattern in WPF applications.
+- **WebApi:** To create a reusable and scalable application, we can use endpoints to process the application services.
 
 ### Dependency Injection
 - **Microsoft.Extensions.DependencyInjection:** The built-in dependency injection framework provided by .NET, used to manage dependencies and promote loose coupling between components.
@@ -60,11 +62,11 @@ InventoryManagementSystem/
 │   ├── Inventory.Services
 │   ├── Inventory.Shared.Core.Enum
 │   ├── InventoryManagementSqlDb
+│   ├── InventoryManagementAPI
 ├── tests/
 │   ├── InventoryManagementSystem.Application.Tests/
 │   ├── InventoryManagementSystem.Domain.Tests/
-│   ├── InventoryManagementSystem.Infrastructure.Tests/
-│   ├── InventoryManagementSystem.Presentation.Tests/
+
 ```
 
 - **Application:** Contains use cases and application-specific logic.
