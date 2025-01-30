@@ -28,7 +28,6 @@ namespace Inventory_Management.Helper
             {
                 keyValuePairs.Add(new KeyValuePair<int, string>((int)enumValues.GetValue(i), enumNames[i]));
             }
-            //exp = a => _listof.Contains(a.Key);
             if(selectfromexpressiontype)
             keyValuePairs = keyValuePairs.Where(a => _listof.Contains(a.Key)).ToList();
 

@@ -420,81 +420,40 @@ namespace Inventory_Management.ViewModels
             StockStatus.Insert(1, new KeyValuePair<int, string>(90, "Min Stock quantity"));
             StockStatus.Insert(2, new KeyValuePair<int, string>(91, "Max Stock quantity"));
         }
-       
 
-        private Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? BuildQuery()
+        private InventoryFilterDto BuildQueryFilter()
         {
-            Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? filter = null;
+            ExpressionType selectedExpressionType = ExpressionType.TypeAs;
 
-            filter = a => a.DeleteStatus == (int)DeleteStatus.NotDeleted;
-
-            var _stockStatus = new Shared().EnumToDictionary<StockStatusMinMax>(selectfromexpressiontype:false).Where(a => a.Key == SelectedStockStatus.Key).FirstOrDefault();
+            var _stockStatus = new Shared().EnumToDictionary<StockStatusMinMax>(selectfromexpressiontype: false).Where(a => a.Key == SelectedStockStatus.Key).FirstOrDefault();
 
             StockStatusMinMax stockStatusMinMax = (StockStatusMinMax)Enum.ToObject(typeof(StockStatusMinMax), _stockStatus.Key);
-
-            if (stockStatusMinMax != 0)
-            {
-                switch (stockStatusMinMax)
-                {
-                    case StockStatusMinMax.MinStockquantity:
-
-                        filter = ExpressionCombiner.And(filter,  a=> a.StockQuantity == MinMaxInventory().Min);
-                      break;
-
-                    case StockStatusMinMax.MaxStockquantity:
-
-                        filter = ExpressionCombiner.And(filter,   a => a.StockQuantity == MinMaxInventory().Max);
-                     break;
-
-                }
-            }
-
-
 
             if ((StatustSearch > 0 && !String.IsNullOrEmpty(SelectedStockStatus.Value)))
             {
                 var _ExpressionType = new Shared().EnumToDictionary<ExpressionType>().Where(a => a.Value == SelectedStockStatus.Value).FirstOrDefault();
 
-                ExpressionType selectedExpressionType = (ExpressionType)Enum.ToObject(typeof(ExpressionType), _ExpressionType.Key);
-
-                var BuildPredFilter = ExpressionTreeHelper<Inventory.DomainModels.Models.Inventory, object>.BuildPredicate(a => a.StockQuantity, selectedExpressionType, StatustSearch);
-
-                filter = ExpressionCombiner.And(filter, BuildPredFilter);
+                 selectedExpressionType = (ExpressionType)Enum.ToObject(typeof(ExpressionType), _ExpressionType.Key);
             }
 
-      
-           
-
-            if (SelectedCategory is not null && SelectedCategory.Id > 0)
+           return new InventoryFilterDto
             {
-                filter = ExpressionCombiner.And(filter, a => a.Item.CategoryId == SelectedCategory.Id);
-            }
-            if (SearchSelectedItem is not null && SearchSelectedItem.Id > 0)
-            {
-                filter = ExpressionCombiner.And(filter, a => a.ItemId == SearchSelectedItem.Id);
-            }
-
-            if (SearchSelectedSupplier is not null && SearchSelectedSupplier.Id > 0)
-            {
-                filter = ExpressionCombiner.And(filter, a => a.SupplierId == SearchSelectedSupplier.Id);
-            }
-
-            if (!String.IsNullOrEmpty(InputSearch) && InputSearch.Length > 0)
-            {
-
-                filter = ExpressionCombiner.And(filter, a => a.Item.Name.Contains(InputSearch)
-                || a.Supplier.Name.Contains(InputSearch)
-                || a.Item.Category.Name.Contains(InputSearch));
-            }
-
-            return filter;
+                InputSearch = InputSearch,
+                SearchSelectedItemId = SearchSelectedItem is not null ?  SearchSelectedItem.Id : 0,
+                SearchSelectedSupplierId = SearchSelectedSupplier is not null ? SearchSelectedSupplier.Id : 0,
+                SelectedCategoryId = SelectedCategory is not null ? SelectedCategory.Id : 0,
+                SelectedStockStatus = SelectedStockStatus.Key,
+                StockStatusMinMax = stockStatusMinMax,
+                selectedExpressionType = selectedExpressionType,
+                StatustSearch = StatustSearch
+           };
         }
+
         private void OnSelectionChanged(object parameter)
         {
             Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? Catfilter = null;
             if (parameter is CategoryDto SelectedCategory)
             {
-                // if (SelectedCategory is not null)
 
                 LoadInventoryItemCommand.Execute(this);
             }
@@ -510,7 +469,6 @@ namespace Inventory_Management.ViewModels
 
         }
 
-
         private void GetAllItems(object parameter = null)
         {
             Items?.Clear();
@@ -518,11 +476,11 @@ namespace Inventory_Management.ViewModels
             Items.Insert(0, new ItemDto { Id = 0 });
         }
 
-
         private void GetAllInventoryItems(object parameter = null)
         {
+          
             InventoryList?.Clear();
-            InventoryList = new ObservableCollection<InventoryDto?>(_inventoryServices.GetAll(filter: BuildQuery()));
+            InventoryList = new ObservableCollection<InventoryDto?>(_inventoryServices.GetAll(BuildQueryFilter()));
         }
 
         private (int Max , int Min) MinMaxInventory()

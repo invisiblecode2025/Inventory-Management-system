@@ -11,6 +11,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static Inventory.Shared.Core.Enum.Common;
+using Core.Common.ExpCombiner;
+using static Core.Common.ExpCombiner.ExpressionCombiner;
 
 namespace Inventory.Services.Services
 {
@@ -79,6 +81,6 @@ namespace Inventory.Services.Services
             return await Task.FromResult(false);
         }
 
-        
+
     }
 }

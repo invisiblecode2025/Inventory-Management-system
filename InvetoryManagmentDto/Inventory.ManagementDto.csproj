@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Inventory.Shared.Core.Enum\Inventory.Shared.Core.csproj" />
+  </ItemGroup>
+
 </Project>

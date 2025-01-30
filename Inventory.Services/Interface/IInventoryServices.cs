@@ -19,5 +19,8 @@ namespace Inventory.Services.Interface
 
         public Task<bool> SoftDeleteInventoryItems(int Id);
         public InventoryDto GetById(int Id);
+
+        public IEnumerable<InventoryDto> GetAll(InventoryFilterDto _filterParam);
+        Expression<Func<DomainModels.Models.Inventory, bool>>? BuildQuery(InventoryFilterDto _filterParam);
     }
 }

@@ -10,6 +10,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static Inventory.Shared.Core.Enum.Common;
+using Core.Common.ExpCombiner;
+using static Core.Common.ExpCombiner.ExpressionCombiner;
 
 namespace Inventory.Services.Services
 {
@@ -35,6 +37,13 @@ namespace Inventory.Services.Services
         {
             return _mapper.Map<IEnumerable<InventoryDto>>(_unitOfWork.Inventory.GetAllIEnumerable(includeProperties: "Item.Category,Supplier", filter: filter));
         }
+
+        public IEnumerable<InventoryDto> GetAll(InventoryFilterDto inventoryFilterDto)
+        {
+            var filter = BuildQuery(inventoryFilterDto);
+            return _mapper.Map<IEnumerable<InventoryDto>>(_unitOfWork.Inventory.GetAllIEnumerable(includeProperties: "Item.Category,Supplier", filter: filter));
+        }
+
 
         public async Task<InventoryDto> GetByIdAsync(int Id)
         {
@@ -72,7 +81,70 @@ namespace Inventory.Services.Services
             return await Task.FromResult(false);
         }
 
-     
+
+        private (int Max, int Min) MinMaxInventory()
+        {
+            var _Min = GetAll(a => a.DeleteStatus == (int)DeleteStatus.NotDeleted).Min(a => a.StockQuantity);
+            var _max = GetAll(a => a.DeleteStatus == (int)DeleteStatus.NotDeleted).Max(a => a.StockQuantity);
+
+            return (_max, _Min);
+        }
+
+        public Expression<Func<DomainModels.Models.Inventory, bool>>? BuildQuery(InventoryFilterDto _filterParam)
+        {
+            Expression<Func<DomainModels.Models.Inventory, bool>>? filter = null;
+
+            filter = a => a.DeleteStatus == (int)DeleteStatus.NotDeleted;
+
+            if (_filterParam.StockStatusMinMax != 0)
+            {
+                switch (_filterParam.StockStatusMinMax)
+                {
+                    case StockStatusMinMax.MinStockquantity:
+
+                        filter = ExpressionCombiner.And(filter, a => a.StockQuantity == MinMaxInventory().Min);
+                        break;
+
+                    case StockStatusMinMax.MaxStockquantity:
+
+                        filter = ExpressionCombiner.And(filter, a => a.StockQuantity == MinMaxInventory().Max);
+                        break;
+                }
+            }
+
+            if ((_filterParam.StatustSearch > 0 && _filterParam.SelectedStockStatus > 0 ))
+            {
+                var BuildPredFilter = ExpressionTreeHelper<Inventory.DomainModels.Models.Inventory, object>.BuildPredicate(a => a.StockQuantity, _filterParam.selectedExpressionType, _filterParam. StatustSearch);
+
+                filter = ExpressionCombiner.And(filter, BuildPredFilter);
+            }
+
+            if (_filterParam.SelectedCategoryId > 0)
+            {
+                filter = ExpressionCombiner.And(filter, a => a.Item.CategoryId == _filterParam.SelectedCategoryId);
+            }
+            if (_filterParam.SearchSelectedItemId > 0)
+            {
+                filter = ExpressionCombiner.And(filter, a => a.ItemId == _filterParam.SearchSelectedItemId);
+            }
+
+            if (_filterParam.SearchSelectedSupplierId > 0)
+            {
+                filter = ExpressionCombiner.And(filter, a => a.SupplierId == _filterParam.SearchSelectedSupplierId);
+            }
+
+            if (!String.IsNullOrEmpty(_filterParam.InputSearch) && _filterParam.InputSearch.Length > 0)
+            {
+                filter = ExpressionCombiner.And(filter, a => a.Item.Name.Contains(_filterParam.InputSearch)
+                || a.Supplier.Name.Contains(_filterParam.InputSearch)
+                || a.Item.Category.Name.Contains(_filterParam.InputSearch));
+            }
+
+            return filter;
+        }
+
+
+
         public async Task<bool> SoftDeleteInventoryItems(int Id)
         {
             var _inventory = _unitOfWork.Inventory.GetWhere(a=> a.Id == Id).FirstOrDefault();

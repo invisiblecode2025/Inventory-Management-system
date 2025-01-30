@@ -25,7 +25,7 @@ namespace InventorymanagementTestUnit
            itemmocservice.Setup(a => a.GetAll(null)).Returns(listofitem);
             catagorymocservice.Setup(a => a.GetAll()).Returns(new List<CategoryDto>());
             suppliermocservice.Setup(a => a.GetAll()).Returns(new List<SupplierDto>());
-            inventorymocservice.Setup(a => a.GetAll(null)).Returns(new List<InventoryDto>());
+           // inventorymocservice.Setup(a => a.GetAll(null)).Returns(new List<InventoryDto>());
 
            var inventoryViewmodel = new InventoryViewModel(itemmocservice.Object,
                catagorymocservice.Object, suppliermocservice.Object, inventorymocservice.Object,false);
