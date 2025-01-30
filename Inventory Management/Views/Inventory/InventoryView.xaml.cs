@@ -72,8 +72,6 @@ namespace Inventory_Management.Views
 
         private void searchsupplierlist2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-
             txtStatustSearch.IsEnabled = true;
             int selectedValue = (int)searchsupplierlist2.SelectedValue;
             var stockStatusMinMax = new Shared().EnumToDictionary<StockStatusMinMax>(selectfromexpressiontype: false).Where(a => a.Key == selectedValue).FirstOrDefault();
