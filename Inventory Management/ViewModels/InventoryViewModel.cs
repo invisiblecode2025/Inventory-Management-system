@@ -19,6 +19,8 @@ using Core.Common.ExpCombiner;
 using Serilog;
 using Inventory_Management.Helper;
 using static Inventory.Shared.Core.Enum.Common;
+using static Core.Common.ExpCombiner.ExpressionCombiner;
+using System.Security.Cryptography;
 
 namespace Inventory_Management.ViewModels
 {
@@ -58,6 +60,18 @@ namespace Inventory_Management.ViewModels
 
                 if (LoadItemsCommand != null && closetest)
                     LoadItemsCommand.NotifyCanExecuteChanged();
+            }
+        }
+ 
+
+        ObservableCollection<KeyValuePair<int, string>> _stockStatus;
+        public ObservableCollection<KeyValuePair<int, string>> StockStatus
+        {
+            get { return _stockStatus; }
+            set
+            {
+                _stockStatus = value;
+                OnPropertyChanged(nameof(StockStatus));
             }
         }
 
@@ -115,6 +129,25 @@ namespace Inventory_Management.ViewModels
             }
         }
 
+        private KeyValuePair<int, string> _selectedStockStatus;
+        public KeyValuePair<int, string> SelectedStockStatus
+        {
+            get { return _selectedStockStatus; }
+            set
+            {
+                _selectedStockStatus = value;
+                if ((_selectedStockStatus.Value is null || String.IsNullOrWhiteSpace(_selectedStockStatus.Value))  && _selectedStockStatus.Key == 0)
+                {
+                    InventoryList.Clear();
+                    LoadInventoryItemCommand.Execute(LoadInventoryItemCommand);
+
+                }
+
+                OnPropertyChanged(nameof(SelectedStockStatus));
+            }
+        }
+
+        
         private SupplierDto _selectedSupplier;
         public SupplierDto SelectedSupplier
         {
@@ -176,7 +209,7 @@ namespace Inventory_Management.ViewModels
                 OnPropertyChanged(nameof(ItemPrice));
             }
         }
-
+        //StatustSearch
         private string _inputSearch;
         public string InputSearch
         {
@@ -187,6 +220,19 @@ namespace Inventory_Management.ViewModels
                 if (value != null && String.IsNullOrWhiteSpace(value))
                     LoadInventoryItemCommand?.Execute(this);
                     OnPropertyChanged(nameof(InputSearch));
+            }
+        }
+
+        private int _statustSearch;
+        public int StatustSearch
+        {
+            get { return _statustSearch; }
+            set
+            {
+                _statustSearch = value;
+                //if (value != null && String.IsNullOrWhiteSpace(value))
+                //    LoadInventoryItemCommand?.Execute(this);
+                OnPropertyChanged(nameof(StatustSearch));
             }
         }
 
@@ -321,6 +367,8 @@ namespace Inventory_Management.ViewModels
             Category.Insert(0, new CategoryDto() { Id = 0 });
         }
 
+
+
         #region Ctor
 
 
@@ -340,6 +388,8 @@ namespace Inventory_Management.ViewModels
             SelectedSupplier = new SupplierDto();
             Inventory = new InventoryDto();
             Category = new ObservableCollection<CategoryDto>();
+            StockStatus = new ObservableCollection<KeyValuePair<int, string>>();   
+         
             Items = new ObservableCollection<ItemDto?>();
             InventoryList = new ObservableCollection<InventoryDto?>();
             Supplier = new ObservableCollection<SupplierDto?>();
@@ -358,14 +408,62 @@ namespace Inventory_Management.ViewModels
             GetAllSuppliers();
             GetAllInventoryItems();
             GetAllCategory();
+            GetStockStatus();
+
+
         }
 
+        private void   GetStockStatus() {
+      
+            StockStatus = new ObservableCollection<KeyValuePair<int, string>>(new Shared().EnumToDictionary<ExpressionType>().ToList());
+            StockStatus.Insert(0, new KeyValuePair<int, string>(0, ""));
+            StockStatus.Insert(1, new KeyValuePair<int, string>(90, "Min Stock quantity"));
+            StockStatus.Insert(2, new KeyValuePair<int, string>(91, "Max Stock quantity"));
+        }
+       
 
         private Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? BuildQuery()
         {
             Expression<Func<Inventory.DomainModels.Models.Inventory, bool>>? filter = null;
 
             filter = a => a.DeleteStatus == (int)DeleteStatus.NotDeleted;
+
+            var _stockStatus = new Shared().EnumToDictionary<StockStatusMinMax>(selectfromexpressiontype:false).Where(a => a.Key == SelectedStockStatus.Key).FirstOrDefault();
+
+            StockStatusMinMax stockStatusMinMax = (StockStatusMinMax)Enum.ToObject(typeof(StockStatusMinMax), _stockStatus.Key);
+
+            if (stockStatusMinMax != 0)
+            {
+                switch (stockStatusMinMax)
+                {
+                    case StockStatusMinMax.MinStockquantity:
+
+                        filter = ExpressionCombiner.And(filter,  a=> a.StockQuantity == MinMaxInventory().Min);
+                      break;
+
+                    case StockStatusMinMax.MaxStockquantity:
+
+                        filter = ExpressionCombiner.And(filter,   a => a.StockQuantity == MinMaxInventory().Max);
+                     break;
+
+                }
+            }
+
+
+
+            if ((StatustSearch > 0 && !String.IsNullOrEmpty(SelectedStockStatus.Value)))
+            {
+                var _ExpressionType = new Shared().EnumToDictionary<ExpressionType>().Where(a => a.Value == SelectedStockStatus.Value).FirstOrDefault();
+
+                ExpressionType selectedExpressionType = (ExpressionType)Enum.ToObject(typeof(ExpressionType), _ExpressionType.Key);
+
+                var BuildPredFilter = ExpressionTreeHelper<Inventory.DomainModels.Models.Inventory, object>.BuildPredicate(a => a.StockQuantity, selectedExpressionType, StatustSearch);
+
+                filter = ExpressionCombiner.And(filter, BuildPredFilter);
+            }
+
+      
+           
 
             if (SelectedCategory is not null && SelectedCategory.Id > 0)
             {
@@ -425,6 +523,14 @@ namespace Inventory_Management.ViewModels
         {
             InventoryList?.Clear();
             InventoryList = new ObservableCollection<InventoryDto?>(_inventoryServices.GetAll(filter: BuildQuery()));
+        }
+
+        private (int Max , int Min) MinMaxInventory()
+        {
+            var _Min = _inventoryServices.GetAll(a=> a.DeleteStatus == (int)DeleteStatus.NotDeleted).Min(a=> a.StockQuantity);
+            var _max = _inventoryServices.GetAll(a => a.DeleteStatus == (int)DeleteStatus.NotDeleted).Max(a => a.StockQuantity);
+
+            return (_max, _Min);
         }
 
         private void GetInventoryById(object parameter = null)

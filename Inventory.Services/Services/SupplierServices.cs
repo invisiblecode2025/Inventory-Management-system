@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Inventory.Shared.Core.Enum.Common;
 
 namespace Inventory.Services.Services
 {
@@ -53,6 +54,17 @@ namespace Inventory.Services.Services
             await _unitOfWork.Commit();
             return result;
 
+        }
+
+        public async Task<bool> SoftDeleteItems(int Id)
+        {
+            var _supplier = _unitOfWork.Supplier.GetWhere(a => a.Id == Id).FirstOrDefault();
+            if (_supplier is not null)
+                _supplier.DeleteStatus = (int)DeleteStatus.Deleted;
+
+            var result = await _unitOfWork.Supplier.Update(_supplier);
+            await _unitOfWork.Commit();
+            return result;
         }
         public async Task<bool> Delete(int ItemId)
         {

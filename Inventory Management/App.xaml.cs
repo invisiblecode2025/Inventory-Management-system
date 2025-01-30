@@ -24,6 +24,7 @@ namespace Inventory_Management
 {
     public partial class App : Application
     {
+
         private readonly IHost host;
         public static IServiceProvider ServiceProvider { get; set; }
         public App()
@@ -45,10 +46,7 @@ namespace Inventory_Management
         {
             services.AddAutoMapper(typeof(MappingProfile));
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Data Source=INVISIBLE-CODE\\SQLSERVER2022;" +
-                " Initial Catalog=InventoryManagement; Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"), ServiceLifetime.Scoped);
-
-
+            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             services.AddTransient<MainWindow>();
             services.AddTransient<ItemViewModel>();
@@ -62,10 +60,15 @@ namespace Inventory_Management
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<ISupplierServices, SupplierServices>();
             services.AddScoped<IInventoryServices, InventoryServices>();
-           
+
+  
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
+
 
             Mouse.OverrideCursor = Cursors.Wait;
         }
+ 
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -85,6 +88,8 @@ namespace Inventory_Management
             // Handle global exceptions
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

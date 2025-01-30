@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Inventory.Services.Services;
 
 namespace Inventory_Management.ViewModels
 {
@@ -16,7 +17,7 @@ namespace Inventory_Management.ViewModels
     {
         readonly ISupplierServices _supplierServices;
         readonly IItemServices _itemServices;
-
+        readonly IInventoryServices _inventoryServices;
         #region Class Member
 
         private SupplierDto? _newSupplier;
@@ -140,9 +141,10 @@ namespace Inventory_Management.ViewModels
             }
         }
 
-        public SupplierViewModel(ISupplierServices supplierServices)
+        public SupplierViewModel(ISupplierServices supplierServices, IInventoryServices inventoryServices)
         {
             _supplierServices = supplierServices;
+            _inventoryServices = inventoryServices;
 
             Suppliers = new ObservableCollection<SupplierDto>();
             AddSupplierCommand = new RelayCommand(AddSupplier, CanAddSupplier);
@@ -210,9 +212,9 @@ namespace Inventory_Management.ViewModels
             return SelectedSupplier?.Id > 0;
         }
 
-        private bool IsSupplierUsed(int _CategoryId)
+        private bool IsSupplierUsed(int _supplierId)
         {
-            return _itemServices.GetAll(filter: a => a.CategoryId == _CategoryId).Any();
+            return _inventoryServices.GetAll(a => a.SupplierId == _supplierId).Any();
         }
         private bool CanDeleteSupplier(object parameter)
         {
@@ -234,7 +236,7 @@ namespace Inventory_Management.ViewModels
             LoadSupplierCommand.Execute(this);
             LoadSupplierCommand.NotifyCanExecuteChanged();
             if (result)
-                MessageBox.Show("The record has been updated successfully.", "Category", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.Yes);
+                MessageBox.Show("The record has been updated successfully.", "Supplier", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.Yes);
 
         }
         private async void DeleteSupplier(object parameter)
@@ -249,7 +251,7 @@ namespace Inventory_Management.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show(" Cant delete Category Is Used", "Inventory", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
+                    MessageBox.Show(" Cant delete Supplier Is Used", "Inventory", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
 
                 }
             }

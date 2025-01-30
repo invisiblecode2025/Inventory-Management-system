@@ -20,5 +20,13 @@ namespace Inventory.Shared.Core.Enum
             Deleted = 1
         }
 
+        public enum StockStatusMinMax
+        {
+
+            MinStockquantity = 90,
+            MaxStockquantity,
+
+        }
+
     }
 }

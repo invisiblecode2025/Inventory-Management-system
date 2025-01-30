@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Linq.Expressions;
 using Core.Common.ExpCombiner;
+using Inventory_Management.Helper;
+using System.Windows;
+using static Inventory.Shared.Core.Enum.Common;
 
 namespace Inventory_Management.ViewModels
 {
@@ -25,6 +28,7 @@ namespace Inventory_Management.ViewModels
     
         readonly IItemServices _itemServices;
         readonly ICategoryServices _categoryServices;
+        readonly IInventoryServices _inventoryServices;
 
         private ItemDto _newItem ; 
         public ItemDto NewItem { 
@@ -154,10 +158,13 @@ namespace Inventory_Management.ViewModels
 
         #region Ctor
         public ItemViewModel(IItemServices itemServices,
-            ICategoryServices categoryServices)
+            ICategoryServices categoryServices, IInventoryServices inventoryServices)
         {
             _itemServices = itemServices;
-             _categoryServices = categoryServices;  
+             _categoryServices = categoryServices;
+            _inventoryServices = inventoryServices;
+
+
 
              SelectedItem = new ItemDto(); 
             Items = new ObservableCollection<ItemDto>();
@@ -203,7 +210,7 @@ namespace Inventory_Management.ViewModels
 
         private Expression<Func<Item, bool>>? BuildQuery()
         {
-            Expression<Func<Item, bool>>? filter = null;
+            Expression<Func<Item, bool>>? filter = a=> a.DeleteStatus == (int)DeleteStatus.NotDeleted;
 
             if(SelectedCategoryFilter != null && SelectedCategoryFilter.Id > 0)
             {
@@ -217,6 +224,11 @@ namespace Inventory_Management.ViewModels
             }
 
             return filter;
+        }
+
+        private bool IsItemUsed(int _itemId)
+        {
+            return _inventoryServices.GetAll(a => a.ItemId == _itemId).Any();
         }
 
         private bool CanAddItem(object parameter)
@@ -276,10 +288,21 @@ namespace Inventory_Management.ViewModels
         }   
         private async void DeleteItem(object parameter)
         {
-            await _itemServices.Delete(SelectedItem.Id);
-            ClearItems();
-            LoadItemsCommand.Execute(LoadItemsCommand);
-         
+ 
+            if (new Shared().Message_Confirm("Are You Sure delete this item ", "Items", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes))
+            {
+                if (!IsItemUsed(SelectedItem.Id))
+                {
+                    MessageBox.Show(" Cant delete Item Is Used", "Inventory", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.Yes);
+                    return;
+                }
+
+                await _itemServices.SoftDeleteItems(SelectedItem.Id);
+                ClearItems();
+                LoadItemsCommand.Execute(LoadItemsCommand);
+            }
+
+
         }
 
         #endregion
