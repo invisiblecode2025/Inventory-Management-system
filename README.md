@@ -77,8 +77,7 @@ InventoryManagementSystem/
 │   ├── InventoryManagementAPI
 │   ├── InventoryMapper
 ├── tests/
-│   ├── InventoryManagementSystem.Application.Tests/
-│   ├── InventoryManagementSystem.Domain.Tests/
+│   ├── InventorymanagementTestUnit
 
 ```
 
