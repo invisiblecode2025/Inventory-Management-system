@@ -30,6 +30,13 @@ The MVVM pattern is used to facilitate the separation of the UI from the busines
 - **.NET 8:** The primary framework for building the backend services, chosen for its performance, cross-platform capabilities, and rich ecosystem.
 - **Entity Framework Core:** An ORM (Object-Relational Mapper) to simplify database interactions.
 - **SQL Server:** The database management system used for storing and retrieving data.
+-  **Unit of Work Pattern**:
+   - Used to manage database transactions and ensure data consistency across multiple operations.
+   - Simplifies the management of repositories and ensures that changes are committed atomically.
+- **Repository Pattern**:
+   - Abstracted data access logic into repositories, making the service layer agnostic of the underlying data source.
+   - Improved testability by allowing easy mocking of repositories in unit tests.
+
 
 
 ### Frontend
