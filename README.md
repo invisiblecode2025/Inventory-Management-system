@@ -16,7 +16,6 @@ Clean Architecture is chosen to maintain a clear separation of concerns and to e
 - **Use Cases:** Contains application-specific business rules. This layer orchestrates the flow of data to and from the entities and manages the business logic.
 - **Interface Adapters:** Adapts the data from the use cases to a format suitable for the framework or user interface layers.
 - **Frameworks and Drivers:** Contains the frameworks and tools such as the user interface, database, and external APIs. This layer is the least stable and most susceptible to change.
-- **Expression tree :** query builder for reusable search and data filtration 
 
 ### MVVM Pattern
 The MVVM pattern is used to facilitate the separation of the UI from the business logic and data binding. It enhances testability and maintainability.
@@ -30,6 +29,19 @@ The MVVM pattern is used to facilitate the separation of the UI from the busines
 - **.NET 8:** The primary framework for building the backend services, chosen for its performance, cross-platform capabilities, and rich ecosystem.
 - **Entity Framework Core:** An ORM (Object-Relational Mapper) to simplify database interactions.
 - **SQL Server:** The database management system used for storing and retrieving data.
+-  **Unit of Work Pattern**:
+   - Used to manage database transactions and ensure data consistency across multiple operations.
+   - Simplifies the management of repositories and ensures that changes are committed atomically.
+- **Repository Pattern**:
+   - Abstracted data access logic into repositories, making the service layer agnostic of the underlying data source.
+   - Improved testability by allowing easy mocking of repositories in unit tests.
+
+## Key Features
+
+- **CRUD Operations**: Implemented Create, Read, Update, and Delete operations for the `Inventory, items,supplier, category` entity.
+- **Unit Testing**: Comprehensive unit tests using xUnit and Moq to ensure reliability and testability.
+- **AutoMapper**: Used for seamless mapping between entities and DTOs, reducing boilerplate code.
+- **Expression tree :** query builder for reusable search and data filtration 
 
 
 ### Frontend
