@@ -42,12 +42,19 @@ namespace Inventory.Services.Services
         {
             return _mapper.Map<ItemDto>(await _unitOfWork.Item.GetWhere(a=> a.Id == ItemId,includeProperties: "Category").AsNoTracking().FirstOrDefaultAsync());
         }
-        public async Task<int> Create(ItemDto Item)
+        public async Task<int> Createx(ItemDto Item)
         {
             var item = _mapper.Map<Item>(Item);
             _unitOfWork.Item.Add(item);
            await _unitOfWork.Commit(); 
             return item.Id; 
+        }
+        public async Task<ItemDto> Create(ItemDto Item)
+        {
+            var item = _mapper.Map<Item>(Item);
+            _unitOfWork.Item.Add(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ItemDto>(Item);
         }
 
         public async Task<bool> Update(ItemDto Item)

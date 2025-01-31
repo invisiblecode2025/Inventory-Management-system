@@ -14,11 +14,12 @@ namespace Inventory.Services.Interface
 
         public Task<List<ItemDto>> GetAllAsync();
         public IEnumerable<ItemDto> GetAll(Expression<Func<Item, bool>>? filter = null);
-      public  Task<ItemDto> GetById(int ItemId);
-      public Task<int> Create(ItemDto Item);
-     public  Task<bool> Update(ItemDto Item);
-      public Task<bool> Delete(int ItemId);
-    public Task<bool> SoftDeleteItems(int Id);
+        public Task<ItemDto> GetById(int ItemId);
+        public Task<ItemDto> Create(ItemDto Item);
+
+        public Task<bool> Update(ItemDto Item);
+        public Task<bool> Delete(int ItemId);
+        public Task<bool> SoftDeleteItems(int Id);
 
 
 

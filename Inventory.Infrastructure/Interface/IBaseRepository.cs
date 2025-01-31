@@ -13,7 +13,8 @@ namespace Inventory.Infrastructure.Interface
         T GetById(int id);
         Task<T> GetByIdAsync(int id);
 
-         IEnumerable<T> GetAllIEnumerable(Expression<Func<T, bool>> filter = null, string includeProperties = "");
+        T GetById(Expression<Func<T, bool>> filter = null);
+        IEnumerable<T> GetAllIEnumerable(Expression<Func<T, bool>> filter = null, string includeProperties = "");
         Task<List<T>> GetAll(Expression<Func<T, bool>> filter = null, string includeProperties = "");
         Task<List<T>> GetWhereAsync(Expression<Func<T, bool>> filter = null, string includeProperties = "");
         //Task<T> Update(T entity);

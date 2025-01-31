@@ -61,12 +61,25 @@ namespace Inventory.Services.Services
         {
             return _mapper.Map<InventoryDto>( _unitOfWork.Inventory.GetWhere(a => a.Id == Id, includeProperties: "Supplier,Item,Item.Category").AsNoTracking().FirstOrDefault());
         }
-        public async Task<int> Create(InventoryDto Inventory)
+
+        public InventoryDto GetFindById(int Id)
+        {
+            return _mapper.Map<InventoryDto>(_unitOfWork.Inventory.GetById(Id));
+        }
+        public async Task<int> Createx(InventoryDto Inventory)
         {
             var _inventory = _mapper.Map<DomainModels.Models.Inventory>(Inventory);
             _unitOfWork.Inventory.Add(_inventory);
             await _unitOfWork.Commit();
             return _inventory.Id;
+        }
+
+        public async Task<InventoryDto> Create(InventoryDto Inventory)
+        {
+            var _inventory = _mapper.Map<DomainModels.Models.Inventory>(Inventory);
+            _unitOfWork.Inventory.Add(_inventory);
+            await _unitOfWork.Commit();
+            return _mapper.Map<InventoryDto>(_inventory);
         }
 
         public async Task<bool> Update(InventoryDto Inventory)

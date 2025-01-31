@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Inventory.Services\Inventory.Services.csproj" />
+    <ProjectReference Include="..\InventoryMapper\InventoryMapper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

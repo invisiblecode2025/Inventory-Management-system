@@ -114,6 +114,11 @@ namespace Repository
             return _context.Set<T>().Find(id);
         }
 
+        public T GetById(Expression<Func<T, bool>> filter = null)
+        {
+            return _context.Set<T>().Find(filter);
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
