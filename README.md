@@ -75,9 +75,9 @@ InventoryManagementSystem/
 │   ├── Inventory.Shared.Core.Enum
 │   ├── InventoryManagementSqlDb
 │   ├── InventoryManagementAPI
+│   ├── InventoryMapper
 ├── tests/
-│   ├── InventoryManagementSystem.Application.Tests/
-│   ├── InventoryManagementSystem.Domain.Tests/
+│   ├── InventorymanagementTestUnit
 
 ```
 
