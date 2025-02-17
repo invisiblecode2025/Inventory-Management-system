@@ -72,5 +72,11 @@ namespace Inventory_Management
             ContentArea.Content = image;
 
         }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            Application.Current.Shutdown(); 
+        }
+        }
     }
-}

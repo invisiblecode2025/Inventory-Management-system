@@ -9,6 +9,7 @@
         xmlns:local1="clr-namespace:Inventory_Management.Views.Inventory"
         mc:Ignorable="d"
         Title="Inventory Management System" Height="450" Width="800"
+        Closing="MainWindow_Closing"
         >
 
 

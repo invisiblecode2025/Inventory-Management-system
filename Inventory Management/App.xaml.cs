@@ -121,10 +121,13 @@ namespace Inventory_Management
         {
             await host.StopAsync();
             Log.CloseAndFlush();
+            loginWindow?.Close();
             host.Dispose();
             base.OnExit(e);
         }
-    }
+
+       
+        }
 }
 
 
