@@ -14,6 +14,7 @@ namespace Inventory.Infrastructure.Repository.UnitOfWork
         public IBaseRepository<Supplier> Supplier { get; private set; }
         public IBaseRepository<DomainModels.Models.Inventory> Inventory { get; private set; }
 
+        public IBaseRepository<Users> Users { get; private set; }
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -22,6 +23,7 @@ namespace Inventory.Infrastructure.Repository.UnitOfWork
             Category = new BaseRepository<Category>(_context);
             Supplier = new BaseRepository<Supplier>(_context);
             Inventory = new BaseRepository<DomainModels.Models.Inventory>(_context);
+            Users = new BaseRepository<Users>(_context);
             
 
         }

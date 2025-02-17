@@ -134,7 +134,7 @@ namespace Inventory.Services.Services
 
             if ((_filterParam.StatustSearch > 0 && _filterParam.SelectedStockStatus > 0 ))
             {
-                var BuildPredFilter = ExpressionTreeHelper<Inventory.DomainModels.Models.Inventory, object>.BuildPredicate(a => a.StockQuantity, _filterParam.selectedExpressionType, _filterParam. StatustSearch);
+                var BuildPredFilter = ExpressionTreeHelper<DomainModels.Models.Inventory, object>.BuildPredicate(a => a.StockQuantity, _filterParam.selectedExpressionType, _filterParam. StatustSearch);
 
                 filter = ExpressionCombiner.And(filter, BuildPredFilter);
             }

@@ -284,7 +284,7 @@ namespace Inventory_Management.ViewModels
 
             ClearItems();
             LoadItemsCommand.Execute(LoadItemsCommand);
-            //UpdateItemCommand.NotifyCanExecuteChanged();
+      
         }   
         private async void DeleteItem(object parameter)
         {

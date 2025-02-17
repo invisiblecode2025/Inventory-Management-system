@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Windows.Input;
 using InventoryAPI.Mapper;
+using Inventory_Management.Views.login;
 
 namespace Inventory_Management
 {
@@ -54,31 +55,44 @@ namespace Inventory_Management
             services.AddTransient<CategoryViewModel>();
             services.AddTransient<InventoryViewModel>();
             services.AddTransient<SupplierViewModel>();
+            services.AddTransient<UserViewModel>();
             services.AddTransient<MainWindow>();
-
+            services.AddTransient<LoginView>();
+            
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IItemServices, ItemServices>();
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<ISupplierServices, SupplierServices>();
             services.AddScoped<IInventoryServices, InventoryServices>();
+            services.AddScoped<IUserServices, UsersServices>();
 
-  
+
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
 
 
             Mouse.OverrideCursor = Cursors.Wait;
         }
- 
 
+       public static LoginView? loginWindow;
         protected override async void OnStartup(StartupEventArgs e)
         {
             await host.StartAsync();
-            var mainWindow = host.Services.GetRequiredService<MainWindow>();
-            mainWindow.WindowState = WindowState.Maximized;
-            mainWindow.Show();
+
             base.OnStartup(e);
 
+             loginWindow = host.Services.GetRequiredService<LoginView>();
+            loginWindow.WindowState = WindowState.Normal;
+            loginWindow.ShowDialog();
+
+            if (UserViewModel.LoginSuccess)
+            {
+                var mainWindow = host.Services.GetRequiredService<MainWindow>();
+                mainWindow.WindowState = WindowState.Maximized;
+                mainWindow.Show();
+            }
+
+         
             // Configure Serilog
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()

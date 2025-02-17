@@ -14,7 +14,7 @@ namespace InventoryAPI.Mapper
             CreateMap<Supplier, SupplierDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<Supplier, SupplierDto>().ReverseMap();
-
+            CreateMap<Users, UserDto>().ReverseMap();
         }
     }
 }

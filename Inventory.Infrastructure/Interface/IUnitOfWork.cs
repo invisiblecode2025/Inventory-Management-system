@@ -16,7 +16,8 @@ namespace Inventory.Infrastructure.Interface
         IBaseRepository<DomainModels.Models.Inventory> Inventory { get; }
         IBaseRepository<Supplier> Supplier { get; }
         IBaseRepository<Category> Category { get; }
-  
+
+        IBaseRepository<Users> Users { get; }
         int Complete();
         Task<bool> SaveChangesCommiRollBack();
         Task<int> Commit();

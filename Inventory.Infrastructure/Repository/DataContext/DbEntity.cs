@@ -14,5 +14,6 @@ namespace Inventory.Repository.DataContext
         public DbSet<Category> Category { get; set; }
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<DomainModels.Models.Inventory> Inventory { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }

@@ -35,9 +35,6 @@ namespace Inventory_Management.ViewModels
         }
 
 
-       
-        //public ObservableCollection<CategoryDto> Categorys { get; set; }
-
         ObservableCollection<CategoryDto> _categorys;
         public ObservableCollection<CategoryDto> Categorys
         {
