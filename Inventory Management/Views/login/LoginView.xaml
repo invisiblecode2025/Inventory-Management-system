@@ -39,8 +39,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="/Resources/Image/email.png" Height="20" Opacity=".5"/>
-                        <TextBlock x:Name="textEmail" MouseDown="textEmail_MouseDown" Text="email" Style="{StaticResource textHint}"/>
-                        <TextBox x:Name="txtEmail" TextChanged="txtEmail_TextChanged" Style="{StaticResource textbox}" Text="{Binding UserName, Mode=TwoWay}"/>
+                        <TextBlock x:Name="textEmail" MouseDown="textEmail_MouseDown"  Text="email" Style="{StaticResource textHint}"/>
+                        <TextBox x:Name="txtEmail" TextChanged="txtEmail_TextChanged" Focusable="True" Style="{StaticResource textbox}" Text="{Binding UserName, Mode=TwoWay}"/>
                     </Grid>
                 </Border>
 
@@ -54,7 +54,10 @@
                         </Grid.ColumnDefinitions>
                         <Image Source="/Resources/Image/lock.png" Height="20" Opacity=".5"/>
                         <TextBlock x:Name="textPassword" MouseDown="textPassword_MouseDown" Style="{StaticResource textHint}" d:IsHidden="True"  />
-                        <PasswordBox  m:PasswordBoxHelper.BoundPassword="{Binding PassWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="txtPassword" PasswordChanged="txtPassword_PasswordChanged"  Style="{StaticResource textbox}" />
+                        <PasswordBox  m:PasswordBoxHelper.BoundPassword="{Binding PassWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      m:PasswordBoxHelper.PasswordCommand="{Binding LoginCommand}" 
+                                      x:Name="txtPassword" PasswordChanged="txtPassword_PasswordChanged" 
+                                      Style="{StaticResource textbox}" />
                     </Grid>
                 </Border>
 
@@ -85,8 +88,7 @@
                 <!--SignUp Content-->
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Inventory System" Style="{StaticResource titleText}"/>
-                    <!--<TextBlock Text="SignUp now to connect with us!" Style="{StaticResource descriptionText}" Opacity=".8" Margin="20 30"/>-->
-                    <!--<Button Content="SignUp" Style="{StaticResource signUpButton}"/>-->
+
                 </StackPanel>
             </Grid>
         </Border>

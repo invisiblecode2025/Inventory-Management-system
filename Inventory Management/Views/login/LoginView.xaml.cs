@@ -27,6 +27,7 @@ namespace Inventory_Management.Views.login
         {
             InitializeComponent();
             this.DataContext = App.ServiceProvider.GetRequiredService<UserViewModel>();
+            txtEmail.Focus();
             Mouse.OverrideCursor = null;
         }
 
@@ -77,6 +78,15 @@ namespace Inventory_Management.Views.login
         private void Image_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var viewmodel = DataContext as UserViewModel;
+                viewmodel.LoginCommand.Execute(this);
+            }
         }
     }
 }
