@@ -11,6 +11,12 @@
 
   <ItemGroup>
     <None Remove="background.jpg" />
+    <None Remove="Resources\Image\close.png" />
+    <None Remove="Resources\Image\email.png" />
+    <None Remove="Resources\Image\facebook.png" />
+    <None Remove="Resources\Image\google.png" />
+    <None Remove="Resources\Image\linkedin.png" />
+    <None Remove="Resources\Image\lock.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +48,24 @@
 
   <ItemGroup>
     <Resource Include="background.jpg" />
+    <Resource Include="Resources\Image\close.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Image\email.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Image\facebook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Image\google.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Image\linkedin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Image\lock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

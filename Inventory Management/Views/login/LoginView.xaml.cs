@@ -65,17 +65,6 @@ namespace Inventory_Management.Views.login
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-          
-
-            if (!string.IsNullOrEmpty(txtEmail.Text) && !string.IsNullOrEmpty(txtPassword.Password))
-            {
-             
-            }
-          
-            this.Hide();
-        }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
