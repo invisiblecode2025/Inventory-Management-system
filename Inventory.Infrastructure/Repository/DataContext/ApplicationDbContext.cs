@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using static Inventory.Shared.Core.Enum.Common;
 
@@ -22,6 +23,26 @@ namespace Inventory.Repository.DataContext
 
             base.OnModelCreating(modelBuilder);
 
+
+            // Apply global query filter for all entities that implement ISoftDelete
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+                {
+                    var method = typeof(ApplicationDbContext)
+                        .GetMethod(nameof(SetSoftDeleteFilter), BindingFlags.NonPublic | BindingFlags.Static)
+                        ?.MakeGenericMethod(entityType.ClrType);
+
+                    method?.Invoke(null, new object[] { modelBuilder });
+                }
+            }
+
+        }
+
+        private void SetSoftDeleteFilter<TEntity>(ModelBuilder modelBuilder)
+       where TEntity : BaseEntity
+        {
+            modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.DeleteStatus != (byte)DeleteStatus.NotDeleted);
         }
 
         private void SingularizeTableNames(ModelBuilder modelBuilder)
